@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simulasi Slot Spin Keren</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
+    body {
+      background: linear-gradient(135deg, #2b2f50, #1d1f27);
+      color: #eee;
+      font-family: 'Orbitron', sans-serif;
+      text-align: center;
+      padding: 40px 20px;
+      user-select: none;
+    }
+
+    header {
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: 8px;
+      margin-bottom: 30px;
+      text-shadow: 0 0 8px #ffcc00, 0 0 15px #ffcc00;
+    }
+
+    .slot-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px auto 40px;
+      perspective: 800px;
+    }
+
+    .slot-box {
+      width: 80px;
+      height: 100px;
+      margin: 0 10px;
+      background: linear-gradient(145deg, #f7b733, #fc4a1a);
+      border-radius: 15px;
+      box-shadow: 0 6px 12px rgba(252, 74, 26, 0.7);
+      color: white;
+      font-size: 56px;
+      font-weight: 900;
+      line-height: 100px;
+      text-shadow:
+        0 0 8px #fff8,
+        0 0 15px #ffde59,
+        0 0 20px #ffbb33,
+        0 0 30px #ffbb33;
+      transform-style: preserve-3d;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      user-select: none;
+      position: relative;
+      border: 2px solid #ffbb33;
+    }
+
+    /* Spin animation */
+    .spin-animation {
+      animation: spinFlip 0.6s ease forwards;
+    }
+    @keyframes spinFlip {
+      0% {
+        transform: rotateX(0deg);
+        opacity: 1;
+      }
+      50% {
+        transform: rotateX(90deg);
+        opacity: 0.3;
+      }
+      100% {
+        transform: rotateX(0deg);
+        opacity: 1;
+      }
+    }
+
+    /* Efek menang */
+    .win-effect {
+      animation: glowPulse 1s ease infinite alternate;
+    }
+    @keyframes glowPulse {
+      0% {
+        box-shadow:
+          0 0 8px #fff8,
+          0 0 15px #ffd700,
+          0 0 25px #ffdc00,
+          0 0 40px #ffea00;
+        transform: scale(1);
+      }
+      100% {
+        box-shadow:
+          0 0 18px #fff8,
+          0 0 25px #ffd700,
+          0 0 45px #ffdc00,
+          0 0 60px #ffea00;
+        transform: scale(1.1);
+      }
+    }
+
+    .controls {
+      margin-top: 20px;
+    }
+
+    .btn {
+      padding: 15px 50px;
+      font-size: 24px;
+      background: linear-gradient(135deg, #ff4e50, #f9d423);
+      border: none;
+      border-radius: 30px;
+      color: #2b2f50;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 15px rgba(249, 212, 35, 0.5);
+      transition: background 0.3s ease, transform 0.2s ease;
+      user-select: none;
+    }
+    .btn:hover {
+      background: linear-gradient(135deg, #f9d423, #ff4e50);
+      transform: scale(1.05);
+    }
+    .btn:active {
+      transform: scale(0.95);
+      box-shadow: 0 4px 10px rgba(249, 212, 35, 0.3);
+    }
+
+    .money, .spin-count {
+      font-size: 20px;
+      margin: 12px 0;
+      letter-spacing: 1.5px;
+    }
+
+    input[type=number] {
+      padding: 8px 12px;
+      width: 100px;
+      font-size: 18px;
+      border-radius: 12px;
+      border: none;
+      text-align: center;
+      box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.15);
+      user-select: text;
+      color: #2b2f50;
+      font-weight: 700;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .slot-box {
+        width: 60px;
+        height: 80px;
+        font-size: 42px;
+        line-height: 80px;
+        margin: 0 5px;
+      }
+      .btn {
+        font-size: 20px;
+        padding: 12px 35px;
+      }
+      input[type=number] {
+        width: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>JACKPOT SLOT</header>
+
+<div class="slot-wrapper">
+  <div class="slot-box" id="slot1">7</div>
+  <div class="slot-box" id="slot2">7</div>
+  <div class="slot-box" id="slot3">7</div>
+  <div class="slot-box" id="slot4">7</div>
+  <div class="slot-box" id="slot5">7</div>
+</div>
+
+<div class="controls">
+  <div class="spin-count">
+    Jumlah Spin: <input type="number" id="jumlahSpin" value="1" min="1" />
+  </div>
+  <div class="spin-count">
+    Harga per Spin: <input type="number" id="hargaSpin" value="200" min="1" step="50" />
+  </div>
+  <div class="money">
+    Uang Simulasi: <span id="uang">20000</span> koin
+  </div>
+  <br />
+  <button class="btn" id="spinBtn">SPIN</button>
+</div>
+
+<audio id="spinSound" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" preload="auto"></audio>
+<audio id="winSound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg" preload="auto"></audio>
+
+<script src="controller.js"></script>
+<script>
+  let uang = 20000;
+  let spinKe = 0;
+  const symbols = ['7', 'X', 'A', 'B', 'C'];
+
+  const slotElems = [
+    document.getElementById("slot1"),
+    document.getElementById("slot2"),
+    document.getElementById("slot3"),
+    document.getElementById("slot4"),
+    document.getElementById("slot5"),
+  ];
+
+  const spinSound = document.getElementById("spinSound");
+  const winSound = document.getElementById("winSound");
+  const spinBtn = document.getElementById("spinBtn");
+
+  function getRandomSymbol() {
+    return symbols[Math.floor(Math.random() * symbols.length)];
+  }
+
+  async function animateSpin() {
+    // Putar animasi spin berurutan tiap slot
+    for(let i=0; i<slotElems.length; i++) {
+      slotElems[i].classList.add("spin-animation");
+      // Ganti simbol beberapa kali biar keliatan berputar
+      for(let j=0; j<10; j++) {
+        slotElems[i].innerText = getRandomSymbol();
+        await new Promise(r => setTimeout(r, 50));
+      }
+      slotElems[i].classList.remove("spin-animation");
+    }
+  }
+
+  async function mulaiSpin() {
+    const jumlah = parseInt(document.getElementById("jumlahSpin").value);
+    const harga = parseInt(document.getElementById("hargaSpin").value);
+    const totalHarga = jumlah * harga;
+
+    if (uang < totalHarga) {
+      alert("Uang tidak cukup!");
+      return;
+    }
+
+    uang -= totalHarga;
+    updateUang();
+
+    spinBtn.disabled = true;
+    spinSound.currentTime = 0;
+    spinSound.play();
+
+    await animateSpin();
+
+    let totalMenang = 0;
+
+    for (let i = 0; i < jumlah; i++) {
+      spinKe++;
+      const multiplier = checkWin(spinKe); // dapat multiplier, 0 artinya kalah
+
+      if (multiplier > 0) {
+        const hadiah = harga * multiplier;
+        uang += hadiah;
+        totalMenang += hadiah;
+      }
+    }
+    updateUang();
+
+    // Update slot dengan hasil random terakhir
+    slotElems.forEach(slot => {
+      slot.innerText = getRandomSymbol();
+    });
+
+    if(totalMenang > 0) {
+      // Kasih efek menang di slot dan suara
+      slotElems.forEach(slot => slot.classList.add("win-effect"));
+      winSound.currentTime = 0;
+      winSound.play();
+      alert(`Selamat! Kamu menang total ${totalMenang} koin.`);
+      setTimeout(() => {
+        slotElems.forEach(slot => slot.classList.remove("win-effect"));
+      }, 3000);
+    }
+
+    spinBtn.disabled = false;
+  }
+
+  function updateUang() {
+    document.getElementById("uang").innerText = Math.floor(uang);
+  }
+
+  spinBtn.addEventListener("click", mulaiSpin);
+
+</script>
+</body>
+</html>
